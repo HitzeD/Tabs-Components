@@ -5,27 +5,29 @@ class TabLink {
     this.element = element;
     
     // Get the custom data attribute on the Link
-    this.data = this.element.querySelector(`.tabs-link[data-tab="${this.element.dataset.tab}"]`);
+    this.data = this.element.dataset.tab;
     console.log(this.data);
     // Using the custom data attribute get the associated Item element
-    // this.itemElement = ;
-    
+    this.itemElement = document.querySelector(`.tabs-item[data-tab="${this.data}]`);
     // Using the Item element, create a new instance of the TabItem class
-    // this.tabItem;
-    
-    // Add a click event listener on this instance, calling the select method on click
+    this.tabItem = new TabItem(this.itemElement);
+    // this.select = this.select.bind(this);
 
+    // Add a click event listener on this instance, calling the select method on click
+    this.element.addEventListener('click', () => {this.select()});
   };
 
   select() {
     // Get all of the elements with the tabs-link class
-    // const links;
+    const links = document.querySelectorAll('.tabs-link');
 
     // Using a loop or the forEach method remove the 'tabs-link-selected' class from all of the links
-    // Array.from(links).forEach();
+    Array.from(links).forEach(function(link){
+      link.classList.remove('tabs-link-selected')
+    });
 
     // Add a class named "tabs-link-selected" to this link
-    // this.element;
+    this.element.classList.toggle('tabs-link-selected');
     
     // Call the select method on the item associated with this link
 
@@ -43,9 +45,9 @@ class TabItem {
     const items = this.element.querySelectorAll('.tab-items');
 
     // Remove the class "tabs-item-selected" from each element
-    
+    this.element.classList.remove('tabs-item-selected');
     // Add a class named "tabs-item-selected" to this element
-    //this.element;
+    this.element.classList.add('tabs-item-selected');
   }
 }
 
@@ -60,5 +62,5 @@ class TabItem {
 */
 
 const links = document.querySelectorAll('.tabs-link');
-console.log(links);
-links.forEach(link => {new TabItem(link)});
+// console.log(links);
+links.forEach(link => {new TabLink(link)});
